@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>More Info – Games UX Summit 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Press Start 2P', monospace;
+            background: #0a0010;
+            color: #00ff41;
+            min-height: 100vh;
+        }
+
+        /* Scanline overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 3px,
+                rgba(0,0,0,0.18) 3px,
+                rgba(0,0,0,0.18) 4px
+            );
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        header {
+            background: #0d0020;
+            border-bottom: 2px solid #4d2d79;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 0 20px rgba(77,45,121,0.5);
+        }
+
+        header h1 {
+            font-size: clamp(10px, 2vw, 16px);
+            color: #a06de0;
+            letter-spacing: 2px;
+        }
+
+        header a {
+            font-size: 9px;
+            color: #4d2d79;
+            text-decoration: none;
+            border: 1px solid #4d2d79;
+            padding: 8px 14px;
+            border-radius: 3px;
+            transition: all 0.2s;
+        }
+        header a:hover {
+            color: #a06de0;
+            border-color: #a06de0;
+            box-shadow: 0 0 10px rgba(160,109,224,0.4);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px 40px;
+            border-bottom: 1px solid #1a0a2e;
+        }
+
+        .hero-channel {
+            font-size: 9px;
+            color: #4d2d79;
+            letter-spacing: 4px;
+            margin-bottom: 16px;
+        }
+
+        .hero h2 {
+            font-size: clamp(16px, 3vw, 28px);
+            color: #00ff41;
+            text-shadow: 0 0 20px #00ff41, 0 0 40px #00ff41;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            font-size: 9px;
+            color: #7a4bbf;
+            line-height: 2;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Info cards grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 0 30px;
+        }
+
+        .info-card {
+            background: #0d0020;
+            border: 2px solid #2a1045;
+            border-radius: 8px;
+            padding: 28px 24px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #7a4bbf, transparent);
+        }
+
+        .info-card:hover {
+            border-color: #7a4bbf;
+            box-shadow: 0 0 24px rgba(122,75,191,0.3);
+        }
+
+        .card-channel {
+            font-size: 7px;
+            color: #3d1960;
+            letter-spacing: 3px;
+            margin-bottom: 14px;
+        }
+
+        .card-icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .card-title {
+            font-size: 10px;
+            color: #a06de0;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .card-value {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(18px, 3vw, 26px);
+            color: #00ff41;
+            text-shadow: 0 0 10px #00ff41;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .card-desc {
+            font-size: 7px;
+            color: #4d2d79;
+            line-height: 2;
+        }
+
+        /* Schedule section */
+        .schedule {
+            max-width: 800px;
+            margin: 0 auto 60px;
+            padding: 0 30px;
+        }
+
+        .section-title {
+            font-size: 12px;
+            color: #7a4bbf;
+            margin-bottom: 24px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #2a1045;
+            letter-spacing: 3px;
+        }
+
+        .schedule-row {
+            display: flex;
+            gap: 20px;
+            padding: 16px 0;
+            border-bottom: 1px solid #130025;
+            align-items: flex-start;
+        }
+
+        .schedule-day {
+            font-size: 8px;
+            color: #00ff41;
+            text-shadow: 0 0 8px #00ff41;
+            min-width: 80px;
+            flex-shrink: 0;
+        }
+
+        .schedule-events {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .schedule-event {
+            font-size: 7px;
+            color: #7a4bbf;
+            line-height: 1.8;
+        }
+
+        .schedule-event strong {
+            color: #a06de0;
+        }
+
+        /* CTA */
+        .cta {
+            text-align: center;
+            padding: 40px 20px 60px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            color: #0a0010;
+            background: #00ff41;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 4px;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0,255,65,0.5), 4px 4px 0 #003d00;
+            transition: all 0.15s;
+            letter-spacing: 2px;
+        }
+
+        .cta-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 0 0 30px rgba(0,255,65,0.7), 6px 6px 0 #003d00;
+        }
+
+        .cta-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 0 0 10px rgba(0,255,65,0.3), 2px 2px 0 #003d00;
+        }
+
+        footer {
+            background: #0d0020;
+            border-top: 2px solid #4d2d79;
+            padding: 20px 40px;
+            text-align: center;
+            font-size: 7px;
+            color: #3d1960;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>GAMES UX SUMMIT 2026</h1>
+    <a href="index.html">← BACK</a>
+</header>
+
+<section class="hero">
+    <div class="hero-channel">// BROADCAST INFO //</div>
+    <h2>LEVEL UP YOUR<br>GAME UX SKILLS</h2>
+    <p>Three days of talks, workshops and networking dedicated to the craft of user experience in games. Join 50+ industry experts in London, October 2026.</p>
+</section>
+
+<div class="info-grid">
+    <div class="info-card">
+        <div class="card-channel">CH 01</div>
+        <span class="card-icon">📍</span>
+        <div class="card-title">LOCATION</div>
+        <div class="card-value">LONDON</div>
+        <div class="card-desc">Tobacco Dock, Wapping Lane, London, E1W 2SF</div>
+    </div>
+    <div class="info-card">
+        <div class="card-channel">CH 02</div>
+        <span class="card-icon">📅</span>
+        <div class="card-title">DATES</div>
+        <div class="card-value">12–14 OCT</div>
+        <div class="card-desc">Three full days of content, networking & workshops. Doors open 08:30 each day.</div>
+    </div>
+    <div class="info-card">
+        <div class="card-channel">CH 03</div>
+        <span class="card-icon">🎮</span>
+        <div class="card-title">SPEAKERS</div>
+        <div class="card-value">50+</div>
+        <div class="card-desc">Senior UX designers, researchers and leads from AAA studios, indie devs & tech giants.</div>
+    </div>
+    <div class="info-card">
+        <div class="card-channel">CH 04</div>
+        <span class="card-icon">🏆</span>
+        <div class="card-title">WORKSHOPS</div>
+        <div class="card-value">20+</div>
+        <div class="card-desc">Hands-on sessions covering usability testing, accessibility, prototyping and more.</div>
+    </div>
+    <div class="info-card">
+        <div class="card-channel">CH 05</div>
+        <span class="card-icon">🎟️</span>
+        <div class="card-title">TICKETS</div>
+        <div class="card-value">ON SALE</div>
+        <div class="card-desc">Early bird pricing available now. Standard, pro and studio passes available.</div>
+    </div>
+    <div class="info-card">
+        <div class="card-channel">CH 06</div>
+        <span class="card-icon">🌐</span>
+        <div class="card-title">FORMAT</div>
+        <div class="card-value">HYBRID</div>
+        <div class="card-desc">Attend in person or stream live. All talks recorded and available post-event.</div>
+    </div>
+</div>
+
+<section class="schedule">
+    <div class="section-title">// SCHEDULE //</div>
+    <div class="schedule-row">
+        <div class="schedule-day">DAY 01<br>12 OCT</div>
+        <div class="schedule-events">
+            <div class="schedule-event"><strong>09:00</strong> — Opening Keynote: The Future of Game UX</div>
+            <div class="schedule-event"><strong>11:00</strong> — Panel: Accessibility First Design</div>
+            <div class="schedule-event"><strong>14:00</strong> — Workshop: Rapid UX Prototyping</div>
+            <div class="schedule-event"><strong>17:00</strong> — Networking & Games Showcase</div>
+        </div>
+    </div>
+    <div class="schedule-row">
+        <div class="schedule-day">DAY 02<br>13 OCT</div>
+        <div class="schedule-events">
+            <div class="schedule-event"><strong>09:30</strong> — Talk: Player Psychology & Onboarding</div>
+            <div class="schedule-event"><strong>11:30</strong> — Workshop: Playtesting Methods</div>
+            <div class="schedule-event"><strong>14:00</strong> — Talk: UI Systems in Open World Games</div>
+            <div class="schedule-event"><strong>16:30</strong> — Indie Spotlight Sessions</div>
+        </div>
+    </div>
+    <div class="schedule-row">
+        <div class="schedule-day">DAY 03<br>14 OCT</div>
+        <div class="schedule-events">
+            <div class="schedule-event"><strong>10:00</strong> — Talk: Motion & Feedback Design</div>
+            <div class="schedule-event"><strong>12:00</strong> — Workshop: UX for Mobile vs Console</div>
+            <div class="schedule-event"><strong>14:30</strong> — Closing Keynote: What's Next in Game UX</div>
+            <div class="schedule-event"><strong>16:00</strong> — Awards & Close</div>
+        </div>
+    </div>
+</section>
+
+<div class="cta">
+    <a href="#" class="cta-btn">GET YOUR TICKET</a>
+</div>
+
+<footer>
+    &copy; 2026 GAMES UX SUMMIT &nbsp;|&nbsp; LONDON, UK
+</footer>
+
+</body>
+</html>
